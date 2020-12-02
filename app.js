@@ -23,7 +23,7 @@ const questions = () => {
     inquirer.prompt([
         {
             message: "What is your managers name?",
-            name: "managerName",
+            name: "name",
             type: "input",
             validate(value) {
                 const valid = isNaN(value);
@@ -32,12 +32,12 @@ const questions = () => {
         },
         {
             message: "What is the managers id?",
-            name: "managerId",
+            name: "id",
             type: "input",
         },
         {
             message: "What is your managers email?",
-            name: "managerEmail",
+            name: "email",
             type: "input",
             validate(value) {
                 const valid = isNaN(value);
@@ -52,9 +52,9 @@ const questions = () => {
     ])
     .then(response => {
         const manager = new Manager(
-            response.managerName,
-            response.managerId,
-            response.managerEmail,
+            response.name,
+            response.id,
+            response.email,
             response.officeNumber
         );
         teamMembers.push(manager)
@@ -68,7 +68,7 @@ const questions = () => {
                 message: "What team member would you like to add?",
                 name: "addMembers",
                 type: "list",
-                choices: ["Add and Engineer", "Add an Intern", "No more members."],
+                choices: ["Add an Engineer", "Add an Intern", "No more members."],
             },
         ])
         .then(answer => {
@@ -78,7 +78,7 @@ const questions = () => {
                     break;
                 }
                 case "Add an Intern" : {
-                    promptIntern();
+                    internQuestions();
                     break;
                 }
                 case "No more members." : {
@@ -93,16 +93,80 @@ const questions = () => {
     const engineerQuestions = () => {
         inquirer.prompt([
             {
-
-            }
+            message: "Enter the engineers name:",
+            name: "name",
+            type: "input",    
+            },
+            {
+            message:"Enter the engineers id:",
+            name: "id",
+            type:"input",
+            },
+            {
+            message: "Enter the engineers email:",
+            name: "email",
+            type: "input",
+            },
+            {
+            message: "Enter your GitHub username:",
+            name: "github",
+            type: "input",
+            },
         ])
+        .then(response => {
+            const engineer = new Engineer(
+                response.name,
+                response.id,
+                response.email,
+                response.github
+            );
+            teamMembers.push(engineer)
+            addingMembers();
+        });
+    };
 
+    // creating an intern
+    const internQuestions = () => {
+        inquirer.prompt([
+            {
+                message: "Enter the interns name:",
+                name: "name",
+                type: "input",
+            },
+            {
+                message: "Enter the inters id:",
+                name: "id",
+                type: "input",
+            },
+            {
+                message: "Enter the inters email:",
+                name: "email",
+                type: "input",
+            },
+            {
+                message: "Enter the inters school:",
+                name: "school",
+                input: "input",
+            },
+        ])
+        .then(response => {
+            const intern = new Intern(
+                response.name,
+                response.id,
+                response.email,
+                response.school
+            );
+            teamMembers.push(intern)
+            addingMembers();
+        });
+    };
 
-
-
+    // creating the html document
+    function finishTeam() {
+        let html = render(teamMembers);
+        if(!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR);
+        fs.writeFile(outputPath, html, err => err?console.error(err): "");
     }
+};
 
-
-
-
-}
+questions();
