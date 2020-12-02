@@ -14,22 +14,95 @@ const render = require("./lib/htmlRenderer");
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
+let teamMembers = [];
 
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
 
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
+// adding prompt
+const questions = () => {
+    console.log("Please build up your team!");
+    inquirer.prompt([
+        {
+            message: "What is your managers name?",
+            name: "managerName",
+            type: "input",
+            validate(value) {
+                const valid = isNaN(value);
+                return valid || "Please enter a valid name.";
+            },
+        },
+        {
+            message: "What is the managers id?",
+            name: "managerId",
+            type: "input",
+        },
+        {
+            message: "What is your managers email?",
+            name: "managerEmail",
+            type: "input",
+            validate(value) {
+                const valid = isNaN(value);
+                return valid || "Please enter a valid email.";
+            },
+        },
+        {
+            message: "What is your managers office number?",
+            name: "officeNumber",
+            type: "input",
+        },
+    ])
+    .then(response => {
+        const manager = new Manager(
+            response.managerName,
+            response.managerId,
+            response.managerEmail,
+            response.officeNumber
+        );
+        teamMembers.push(manager)
+        addingMembers();
+    });
 
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+    // adding additional members
+    function addingMembers () {
+        inquirer.prompt([
+            {
+                message: "What team member would you like to add?",
+                name: "addMembers",
+                type: "list",
+                choices: ["Add and Engineer", "Add an Intern", "No more members."],
+            },
+        ])
+        .then(answer => {
+            switch (answer.addMembers) {
+                case "Add an Engineer": {
+                    engineerQuestions();
+                    break;
+                }
+                case "Add an Intern" : {
+                    promptIntern();
+                    break;
+                }
+                case "No more members." : {
+                    finishTeam();
+                    break;
+                }
+            }
+        });
+        
+    }
+    // creating an engineer
+    const engineerQuestions = () => {
+        inquirer.prompt([
+            {
+
+            }
+        ])
+
+
+
+
+    }
+
+
+
+
+}
