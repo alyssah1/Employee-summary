@@ -9,7 +9,7 @@ User can use the CLI to generate an HTML page that displays information about th
 All tests must pass.
 
 # Helpful links
-![link](https://im4.ezgif.com/tmp/ezgif-4-688feecb2cf8.gif)
+![link](./video.gif)
 ![screenshot](./image/screenshot.png)
 
 
