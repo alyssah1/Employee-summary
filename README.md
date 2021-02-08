@@ -9,7 +9,7 @@ User can use the CLI to generate an HTML page that displays information about th
 All tests must pass.
 
 # Description
-This application will prompt the user for information about the team manager and about the team members. The user can input an ID number, email address GitHub username and school. The members much be an engineer, intern or manager. When the user finishes creating the team the application will create an HTML file. 
+This application will prompt the user for information about the team manager and about the team members. The user can input an ID number, email address GitHub username and school. The members must be an engineer, intern or manager. When the user finishes creating the team the application will create an HTML file. 
 
 # Helpful links
 ![link](./video.gif)
